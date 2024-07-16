@@ -60,6 +60,7 @@ def get_nickname(location):
 
 
 def create_assistant():
+    print("Creating assistant...")  # Debug
     if starting_assistant == "":
         my_assistant = client.beta.assistants.create(
             instructions="You are a helpful assistant.",
@@ -69,45 +70,57 @@ def create_assistant():
         )
     else:
         my_assistant = client.beta.assistants.retrieve(starting_assistant)
-
+    print("Assistant created or retrieved.")  # Debug
     return my_assistant
 
 
 def create_thread():
+    print("Creating thread...")  # Debug
     empty_thread = client.beta.threads.create()
+    print("Thread created.")  # Debug
     return empty_thread
 
 
 def send_message(thread_id, message):
+    print(f"Sending message to thread {thread_id}...")  # Debug
     thread_message = client.beta.threads.messages.create(
         thread_id,
         role="user",
         content=message,
     )
+    print("Message sent.")  # Debug
     return thread_message
 
 
 def run_assistant(thread_id, assistant_id):
+    print(f"Running assistant {assistant_id} on thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.create(
         thread_id=thread_id, assistant_id=assistant_id
     )
+    print("Assistant run started.")  # Debug
     return run
 
 
 def get_newest_message(thread_id):
+    print(f"Getting newest message from thread {thread_id}...")  # Debug
     thread_messages = client.beta.threads.messages.list(thread_id)
+    print("Newest message retrieved.")  # Debug
     return thread_messages.data[0]
 
 
 def get_run_status(thread_id, run_id):
+    print(f"Getting run status for run {run_id} in thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
+    print(f"Run status: {run.status}")  # Debug
     return run.status
 
 
 def run_action(thread_id, run_id):
+    print(f"Running action for run {run_id} in thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
 
     for tool in run.required_action.submit_tool_outputs.tool_calls:
+        print(f"Processing tool call: {tool.function.name}")  # Debug
 
         if tool.function.name == "getCurrentWeather":
             arguments = json.loads(tool.function.arguments)
@@ -145,6 +158,7 @@ def run_action(thread_id, run_id):
             raise Exception(
                 f"Unsupported function call: {tool.function.name} provided."
             )
+    print("Action run completed.")  # Debug
 
 
 def main():

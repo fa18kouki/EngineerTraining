@@ -114,7 +114,7 @@ def create_assistant():
     global assistant_id
     if assistant_id == "":
         my_assistant = client.beta.assistants.create(
-            instructions="You are a helpful assistant. If asked about math or computing problems, write and run code to answer the question.",
+            instructions="あなたは役に立つアシスタントです。数学やコンピュータの問題について尋ねられた場合、質問に答えるためにコードを書いて実行してください。",
             name="MyQuickstartAssistant",
             model="gpt-3.5-turbo",
             tools=[{"type": "code_interpreter"}],

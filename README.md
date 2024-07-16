@@ -1,10 +1,10 @@
-# OpenAI API Quickstart - Python
+# OpenAI API クイックスタート - Python
 
-This repository hosts multiple quickstart apps for different OpenAI API endpoints (chat, assistants, etc). Check out the `examples` folder to try out different examples and get started using the OpenAI API.
+このリポジトリには、さまざまなOpenAI APIエンドポイント（チャット、アシスタントなど）のクイックスタートアプリが複数ホストされています。`examples`フォルダをチェックして、さまざまな例を試し、OpenAI APIの使用を開始してください。
 
-## Basic request
+## 基本リクエスト
 
-To send your first API request with the [OpenAI Python SDK](https://github.com/openai/openai-python), make sure you have the right [dependencies installed](https://platform.openai.com/docs/quickstart?context=python) and then run the following code:
+[OpenAI Python SDK](https://github.com/openai/openai-python)を使用して最初のAPIリクエストを送信するには、[依存関係をインストール](https://platform.openai.com/docs/quickstart?context=python)してから、次のコードを実行してください：
 
 ```python
 from openai import OpenAI
@@ -13,66 +13,66 @@ client = OpenAI()
 completion = client.chat.completions.create(
   model="gpt-3.5-turbo",
   messages=[
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Hello!"}
+    {"role": "system", "content": "あなたは役に立つアシスタントです。"},
+    {"role": "user", "content": "こんにちは！"}
   ]
 )
 
 print(completion.choices[0].message)
 ```
 
-## Setup
+## セットアップ
 
-1. If you don’t have Python installed, install it [from Python.org](https://www.python.org/downloads/).
+1. Pythonがインストールされていない場合は、[Python.org](https://www.python.org/downloads/)からインストールしてください。
 
-2. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository.
+2. このリポジトリを[クローン](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)してください。
 
-3. Navigate into the project directory:
+3. プロジェクトディレクトリに移動してください：
 
    ```bash
    $ cd openai-quickstart-python
    ```
 
-4. Create a new virtual environment:
+4. 新しい仮想環境を作成してください：
 
-   - macOS:
+   - macOS：
 
      ```bash
      $ python -m venv venv
      $ . venv/bin/activate
      ```
 
-   - Windows:
+   - Windows：
      ```cmd
      > python -m venv venv
      > .\venv\Scripts\activate
      ```
 
-5. Install the requirements:
+5. 要件をインストールしてください：
 
    ```bash
    $ pip install -r requirements.txt
    ```
 
-6. Make a copy of the example environment variables file:
+6. 例の環境変数ファイルのコピーを作成してください：
 
    ```bash
    $ cp .env.example .env
    ```
 
-7. Add your [API key](https://platform.openai.com/api-keys) to the newly created `.env` file.
+7. 新しく作成された`.env`ファイルに[APIキー](https://platform.openai.com/api-keys)を追加してください。
 
-8. Run the app:
+8. アプリを実行してください：
 
-This step depends on the app itself. If the code uses flask (like the chat-basic example), you can run:
+このステップは、アプリ自体によって異なります。Flaskを使用している場合（チャットの基本的な例のように）、次のように実行できます：
 
 ```bash
 $ flask run
 ```
 
-You should now be able to access the app from your browser at the following URL: [http://localhost:5000](http://localhost:5000)!
+ブラウザから[http://localhost:5000](http://localhost:5000)のURLでアプリにアクセスできるようになります！
 
-If the code is just a simple Python script, you can run it with:
+単純なPythonスクリプトの場合は、次のように実行できます：
 
 ```bash
 $ python my_file.py
