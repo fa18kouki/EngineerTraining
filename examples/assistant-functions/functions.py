@@ -6,19 +6,18 @@ client = OpenAI()
 starting_assistant = ""
 starting_thread = ""
 
-# Read more about function calling: https://platform.openai.com/docs/assistants/tools/function-calling
 starting_tools = [
     {
         "type": "function",
         "function": {
             "name": "getCurrentWeather",
-            "description": "Get the weather in location",
+            "description": "指定した場所の天気を取得します",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "location": {
                         "type": "string",
-                        "description": "The city and state e.g. San Francisco, CA",
+                        "description": "都市名と州名（例：サンフランシスコ, CA）",
                     },
                 },
                 "required": ["location"],
@@ -29,34 +28,30 @@ starting_tools = [
         "type": "function",
         "function": {
             "name": "getNickname",
-            "description": "Get the nickname of a city",
+            "description": "都市のニックネームを取得します",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "location": {
                         "type": "string",
-                        "description": "The city and state e.g. San Francisco, CA",
+                        "description": "都市名と州名（例：サンフランシスコ, CA）",
                     },
                 },
                 "required": ["location"],
             },
         },
     },
-    # Add your next tool here
 ]
 
 
-# Example function which would check the weather but is hardcoded in this example
 def get_current_weather(location):
-    return f"The weather in {location} is 64 degrees."
+    return f"{location}の天気は64度です。"
 
-
-# Example function which would check the city nickname but is hardcoded in this example
 def get_nickname(location):
-    nickname = "TheCity"
-    if location == "Chicago":
-        nickname = "The Windy City"
-    return f"The nickname for {location} is {nickname}."
+    nickname = "その街"
+    if location == "シカゴ":
+        nickname = "風の街"
+    return f"{location}のニックネームは{nickname}です。"
 
 
 def create_assistant():
@@ -70,30 +65,25 @@ def create_assistant():
         )
     else:
         my_assistant = client.beta.assistants.retrieve(starting_assistant)
-    print("Assistant created or retrieved.")  # Debug
     return my_assistant
 
 
 def create_thread():
-    print("Creating thread...")  # Debug
     empty_thread = client.beta.threads.create()
     print("Thread created.")  # Debug
     return empty_thread
 
 
 def send_message(thread_id, message):
-    print(f"Sending message to thread {thread_id}...")  # Debug
     thread_message = client.beta.threads.messages.create(
         thread_id,
         role="user",
         content=message,
     )
-    print("Message sent.")  # Debug
     return thread_message
 
 
 def run_assistant(thread_id, assistant_id):
-    print(f"Running assistant {assistant_id} on thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.create(
         thread_id=thread_id, assistant_id=assistant_id
     )
@@ -109,14 +99,12 @@ def get_newest_message(thread_id):
 
 
 def get_run_status(thread_id, run_id):
-    print(f"Getting run status for run {run_id} in thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
     print(f"Run status: {run.status}")  # Debug
     return run.status
 
 
 def run_action(thread_id, run_id):
-    print(f"Running action for run {run_id} in thread {thread_id}...")  # Debug
     run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
 
     for tool in run.required_action.submit_tool_outputs.tool_calls:
@@ -166,7 +154,7 @@ def main():
     my_thread = create_thread()
 
     while True:
-        user_message = input("Enter your message: ")
+        user_message = input("メッセージを入力してください: ")
         if user_message.lower() == "exit":
             break
 
@@ -176,7 +164,6 @@ def main():
         while run.status != "completed":
             run.status = get_run_status(my_thread.id, run.id)
 
-            # If assistant needs to call a function, it will enter the "requires_action" state
             if run.status == "requires_action":
                 run_action(my_thread.id, run.id)
 
@@ -186,7 +173,7 @@ def main():
         sleep(0.5)
 
         response = get_newest_message(my_thread.id)
-        print("Response:", response.content[0].text.value)
+        print("応答:", response.content[0].text.value)
 
 
 if __name__ == "__main__":

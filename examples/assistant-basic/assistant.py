@@ -59,7 +59,7 @@ def main():
     my_thread = create_thread()
 
     while True:
-        user_message = input("Enter your message: ")
+        user_message = input("メッセージを入力してください: ")
         if user_message.lower() == "exit":
             break
 

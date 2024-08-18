@@ -1,6 +1,10 @@
-# OpenAI API クイックスタート - Python
+# 株式会社E.G.T研修用リポジトリ
 
-このリポジトリには、さまざまなOpenAI APIエンドポイント（チャット、アシスタントなど）のクイックスタートアプリが複数ホストされています。`examples`フォルダをチェックして、さまざまな例を試し、OpenAI APIの使用を開始してください。
+このリポジトリには、さまざまなOpenAI APIエンドポイント（チャット、アシスタントなど）のクイックスタートアプリが複数ホストされています。`examples`フォルダをチェックして、さまざまな例を試し、OpenAI APIの使用を開始し、CursorやCopilotを使用して思い通りに編集してみましょう
+
+## Cursor用OpenAI API リファレンスドキュメントURL
+URL:https://platform.openai.com/docs/api-reference
+## OpenAI APIキー
 
 ## 基本リクエスト
 
@@ -77,3 +81,62 @@ $ flask run
 ```bash
 $ python my_file.py
 ```
+
+
+## 各チュートリアルの動かし方
+
+### Assistant Flask アプリケーション
+
+1. `examples/assistant-flask`ディレクトリに移動します。
+2. 必要な依存関係をインストールします。
+3. Flaskアプリを実行します：
+
+   ```bash
+   $ flask run
+   ```
+
+4. ブラウザで[http://localhost:5000](http://localhost:5000)にアクセスします。
+
+### Chat Basic アプリケーション
+
+1. `examples/chat-basic`ディレクトリに移動します。
+2. 必要な依存関係をインストールします。
+3. アプリを実行します：
+
+   ```bash
+   $ python app.py
+   ```
+
+4. ブラウザで[http://localhost:5000](http://localhost:5000)にアクセスします。
+
+### Assistant Basic アプリケーション
+
+1. `examples/assistant-basic`ディレクトリに移動します。
+2. 必要な依存関係をインストールします。
+3. アプリを実行します：
+
+   ```bash
+   $ python assistant.py
+   ```
+
+### Assistant Functions アプリケーション
+
+1. `examples/assistant-functions`ディレクトリに移動します。
+2. 必要な依存関係をインストールします。
+3. アプリを実行します：
+
+   ```bash
+   $ python functions.py
+   ```
+
+### Assistant Code Interpreter アプリケーション
+
+1. `examples/assistant-codeinterpreter`ディレクトリに移動します。
+2. 必要な依存関係をインストールします。
+3. アプリを実行します：
+
+   ```bash
+   $ python codeinterpreter.py
+   ```
+
+これで、各チュートリアルを実行する準備が整いました。各アプリケーションの指示に従って、OpenAI APIを活用してください。

@@ -1,7 +1,7 @@
 import openai
 
 # OpenAI APIキーを設定
-openai.api_key = 'your-api-key'
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def run_code_interpreter(prompt):
     response = openai.Completion.create(

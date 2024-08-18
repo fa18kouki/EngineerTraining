@@ -15,7 +15,7 @@ assistant_id = ""
 thread_id = ""
 
 chat_history = [
-    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "system", "content": "あなたは役に立つアシスタントです。数学やコンピュータの問題について尋ねられた場合、質問に答えるためにコードを書いて実行してください。"},
 ]
 
 
@@ -37,8 +37,6 @@ def upload_file():
         return jsonify(success=False, message="No selected file")
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-
-        # Upload the file and add it to the Assistant (you could also add it to the message)
         uploaded_file = client.files.create(file=file.stream, purpose="assistants")
         assistant_files = client.beta.assistants.files.list(assistant_id=assistant_id)
 
@@ -110,6 +108,7 @@ def get_files():
     return jsonify(assistant_files=files_list)
 
 
+# アシスタントの初期化とスレッドの作成
 def create_assistant():
     global assistant_id
     if assistant_id == "":
@@ -141,7 +140,7 @@ def create_thread():
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html", chat_history=chat_history)
+    return render_template("index.html", chat_history=chat_history)  # インデックスページを表示
 
 
 @app.route("/chat", methods=["POST"])
@@ -149,16 +148,16 @@ def chat():
     content = request.json["message"]
     chat_history.append({"role": "user", "content": content})
 
-    # Send the message to the assistant
+    # アシスタントにメッセージを送信
     message_params = {"thread_id": thread_id, "role": "user", "content": content}
 
     thread_message = client.beta.threads.messages.create(**message_params)
 
-    # Run the assistant
+    # アシスタントを実行
     run = client.beta.threads.runs.create(
         thread_id=thread_id, assistant_id=assistant_id
     )
-    # Wait for the run to complete and get the response
+    # 実行が完了するまで待機
     while run.status != "completed":
         time.sleep(0.5)
         run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
@@ -167,19 +166,17 @@ def chat():
 
     text_content = None
 
-    # Iterate through the content objects to find the first text content
     for content in response.content:
         if content.type == "text":
             text_content = content.text.value
-            break  # Exit the loop once the first text content is found
+            break  # 最初のテキストコンテンツが見つかったらループを終了
 
-    # Check if text content was found
     if text_content:
         chat_history.append({"role": "assistant", "content": text_content})
         return jsonify(success=True, message=text_content)
     else:
-        # Handle the case where no text content is found
-        return jsonify(success=False, message="No text content found")
+        # テキストコンテンツが見つからなかった場合の処理
+        return jsonify(success=False, message="テキストコンテンツが見つかりませんでした")
 
 
 @app.route("/reset", methods=["POST"])
@@ -192,8 +189,6 @@ def reset_chat():
     create_thread()
     return jsonify(success=True)
 
-
-# Create the assistants and thread when we first load the flask server
 @app.before_request
 def initialize():
     app.before_request_funcs[None].remove(initialize)

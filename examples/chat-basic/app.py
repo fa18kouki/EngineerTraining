@@ -41,13 +41,11 @@ def stream():
         ) as stream:
             for chunk in stream:
                 if chunk.choices[0].delta and chunk.choices[0].delta.content:
-                    # Accumulate the content only if it's not None
                     assistant_response_content += chunk.choices[0].delta.content
                     yield f"data: {chunk.choices[0].delta.content}\n\n"
                 if chunk.choices[0].finish_reason == "stop":
                     break  # Stop if the finish reason is 'stop'
 
-        # Once the loop is done, append the full message to chat_history
         chat_history.append(
             {"role": "assistant", "content": assistant_response_content}
         )
