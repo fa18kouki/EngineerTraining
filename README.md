@@ -4,26 +4,6 @@
 
 ## Cursor用OpenAI API リファレンスドキュメントURL
 URL:https://platform.openai.com/docs/api-reference
-## OpenAI APIキー
-
-## 基本リクエスト
-
-[OpenAI Python SDK](https://github.com/openai/openai-python)を使用して最初のAPIリクエストを送信するには、[依存関係をインストール](https://platform.openai.com/docs/quickstart?context=python)してから、次のコードを実行してください：
-
-```python
-from openai import OpenAI
-client = OpenAI()
-
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "あなたは役に立つアシスタントです。"},
-    {"role": "user", "content": "こんにちは！"}
-  ]
-)
-
-print(completion.choices[0].message)
-```
 
 ## セットアップ
 
@@ -52,13 +32,13 @@ print(completion.choices[0].message)
      > .\venv\Scripts\activate
      ```
 
-5. 要件をインストールしてください：
+5. 必要なモデュールをインストールしてください：
 
    ```bash
    $ pip install -r requirements.txt
    ```
 
-6. 例の環境変数ファイルのコピーを作成してください：
+6. 環境変数ファイルのコピーを作成してください：
 
    ```bash
    $ cp .env.example .env
@@ -71,7 +51,7 @@ print(completion.choices[0].message)
 このステップは、アプリ自体によって異なります。Flaskを使用している場合（チャットの基本的な例のように）、次のように実行できます：
 
 ```bash
-$ flask run
+$ python sample.py
 ```
 
 ブラウザから[http://localhost:5000](http://localhost:5000)のURLでアプリにアクセスできるようになります！
@@ -80,6 +60,25 @@ $ flask run
 
 ```bash
 $ python my_file.py
+```
+
+## サンプルアプリを動かしてみましょう
+
+[OpenAI Python SDK](https://github.com/openai/openai-python)を使用して最初のAPIリクエストを送信するには、[依存関係をインストール](https://platform.openai.com/docs/quickstart?context=python)してから、次のコードを実行してください：
+
+```python
+from openai import OpenAI
+client = OpenAI()
+
+completion = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "あなたは役に立つアシスタントです。"},
+    {"role": "user", "content": "こんにちは！"}
+  ]
+)
+
+print(completion.choices[0].message)
 ```
 
 
@@ -92,7 +91,7 @@ $ python my_file.py
 3. Flaskアプリを実行します：
 
    ```bash
-   $ flask run
+   $ python app.py
    ```
 
 4. ブラウザで[http://localhost:5000](http://localhost:5000)にアクセスします。
@@ -127,16 +126,6 @@ $ python my_file.py
 
    ```bash
    $ python functions.py
-   ```
-
-### Assistant Code Interpreter アプリケーション
-
-1. `examples/assistant-codeinterpreter`ディレクトリに移動します。
-2. 必要な依存関係をインストールします。
-3. アプリを実行します：
-
-   ```bash
-   $ python codeinterpreter.py
    ```
 
 これで、各チュートリアルを実行する準備が整いました。各アプリケーションの指示に従って、OpenAI APIを活用してください。
